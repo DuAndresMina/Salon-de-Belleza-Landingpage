@@ -1,0 +1,97 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Tu salón de belleza de confianza" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" is:inline></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" is:inline></script>
+  </head>
+  <body class="bg-gray-50">
+    <slot />
+    <script is:inline>
+      AOS.init({
+        duration: 800,
+        once: false
+      });
+
+      // Initialize Swiper
+      new Swiper('.swiper', {
+        effect: 'coverflow',
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: 1,
+        loop: true,
+        coverflowEffect: {
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        },
+        pagination: {
+          el: '.swiper-pagination',
+        },
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+        },
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .service-card {
+    transition: all 0.3s ease;
+  }
+
+  .service-card:hover {
+    transform: translateY(-10px);
+  }
+
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .swiper-slide {
+    width: 100%;
+    height: 100%;
+  }
+
+  .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .social-icon {
+    transition: all 0.3s ease;
+  }
+
+  .social-icon:hover {
+    transform: translateY(-5px);
+    color: var(--accent-color);
+  }
+</style>
