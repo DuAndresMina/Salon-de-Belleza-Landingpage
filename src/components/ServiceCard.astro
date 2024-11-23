@@ -19,7 +19,7 @@ const { title, description, icon, price, category, whatsappNumber } = Astro.prop
 >
   <div class="absolute top-0 right-0 -mt-4 -mr-4 h-16 w-16 rounded-full bg-accent opacity-10 group-hover:opacity-20 transition-opacity duration-300"></div>
   <div class="relative z-10">
-    <div class="text-5xl mb-6 transform group-hover:scale-110 transition-transform duration-300">{icon}</div>
+    <div class="text-5xl mb-6 transform group-hover:scale-110 transition-transform duration-300 bg-center"><img src={icon} alt={title} class="bg-center" width="75" height="75" /></div>
     <h3 class="text-2xl font-display font-semibold mb-3 text-gray-800">{title}</h3>
     <p class="text-gray-600 mb-4 group-hover:text-gray-700 transition-colors duration-300">{description}</p>
     {price && (
