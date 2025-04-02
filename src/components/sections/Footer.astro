@@ -1,0 +1,33 @@
+---
+// src/components/sections/Footer.astro
+import type { SocialLink } from '../../config/constants';
+
+interface Props {
+  socialLinks: SocialLink[];
+}
+
+const { socialLinks } = Astro.props;
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-gray-900 text-white py-12">
+  <div class="container mx-auto px-4 text-center">
+    <h2 class="font-display text-3xl mb-6">Bella Essence</h2>
+    <div class="flex justify-center gap-6 mb-8">
+      {socialLinks.map(({ url, icon, label }) => (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-3xl hover:text-primary transition-colors"
+          aria-label={label}
+        >
+          <i class={`fab fa-${icon}`}></i>
+        </a>
+      ))}
+    </div>
+    <p class="text-gray-400">
+      © {currentYear} Bella Essence. Todos los derechos reservados.
+    </p>
+  </div>
+</footer>
