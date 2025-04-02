@@ -1,0 +1,168 @@
+---
+// src/components/sections/Hero.astro
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro/types';
+
+interface Props {
+  whatsappNumber: string;
+}
+
+const { whatsappNumber } = Astro.props;
+const imageModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/salon/*.{avif,webp}', {
+  eager: true
+});
+
+const images = Object.values(imageModules).map((module) => module.default);
+---
+
+<section 
+  class="relative h-[100dvh] flex items-center justify-center"
+  aria-label="Presentación principal del salón de belleza"
+>
+  <!-- Gradient Overlay -->
+  <div 
+    class="absolute inset-0 bg-gradient-to-tr from-primary/60 via-primary/30 to-secondary/30 backdrop-blur-lg z-10"
+    role="presentation"
+  />
+  
+  <!-- Image Slider -->
+  <div class="swiper-container w-full h-full absolute inset-0">
+    <div class="swiper-wrapper">
+      {images.map((image, index) => (
+        <div class="swiper-slide" key={index}>
+          <Image
+            src={image}
+            alt={`Salón de belleza Bella Essence - Imagen ${index + 1}`}
+            class="w-full h-full object-cover object-center"
+            loading="eager"
+            decoding="async"
+            width={1920}
+            height={1080}
+            fetchpriority="high"
+            formats={['avif', 'webp']}
+            quality={85}
+          />
+        </div>
+      ))}
+    </div>
+    
+    <!-- Custom Pagination -->
+    <div 
+      class="swiper-pagination !bottom-8"
+      role="navigation"
+      aria-label="Navegación del slider"
+    />
+  </div>
+
+  <!-- Content -->
+  <div class="container mx-auto px-4 text-center relative z-20">
+    <div 
+      class="max-w-4xl mx-auto space-y-8"
+      data-swiper-parallax-y="-100"
+      data-swiper-parallax-duration="800"
+    >
+      <h1 
+        class="font-display text-[clamp(3.5rem,10vw,6rem)] leading-none font-bold text-white mb-6"
+        data-aos="fade-down"
+        data-aos-anchor=".swiper-container"
+      >
+        <span class="bg-gradient-to-r from-white to-accent/80 bg-clip-text text-transparent">
+          Bella Essence
+        </span>
+      </h1>
+      
+      <p 
+        class="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl mx-auto drop-shadow-lg"
+        data-aos="fade-up"
+        data-aos-delay="200"
+        data-aos-anchor=".swiper-container"
+      >
+        Donde la belleza se encuentra con la elegancia
+      </p>
+      
+      <div data-aos="fade-up" data-aos-delay="400">
+        <a
+          href="#servicios"
+          class="inline-flex items-center bg-accent/90 hover:bg-accent text-white px-8 py-4 rounded-full text-lg font-semibold 
+                backdrop-blur-sm border-2 border-white/10 hover:border-white/30 shadow-lg hover:shadow-xl
+                transition-all duration-300 transform hover:scale-105 group"
+          aria-label="Descubre nuestros servicios"
+        >
+          <span class="mr-2 group-hover:mr-3 transition-all">Descubre</span>
+          <svg class="w-5 h-5 group-hover:rotate-45 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scrolling Indicator -->
+  <div 
+    class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 animate-bounce"
+    data-aos="fade-up"
+    data-aos-delay="800"
+    role="navigation"
+  >
+    <div class="i-ph-arrow-down-bold text-3xl text-white/80" />
+  </div>
+
+<style lang="postcss">
+  .swiper-container {
+    @apply overflow-hidden;
+    
+    .swiper-slide {
+      @apply !transform-none will-change-transform;
+    }
+    
+    .swiper-pagination-bullet {
+      @apply w-3 h-3 bg-white/30 opacity-100 transition-all hover:scale-125;
+      
+      &-active {
+        @apply w-8 bg-accent rounded-full scale-100;
+      }
+    }
+  }
+</style>
+
+<script>
+  // Client-side initialization with hydration
+  document.addEventListener('DOMContentLoaded', () => {
+    const swiper = new Swiper('.swiper-container', {
+      loop: true,
+      speed: 1200,
+      autoplay: {
+        delay: 7000,
+        disableOnInteraction: false,
+      },
+      parallax: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+        renderBullet: (index, className) => `
+          <span class="${className}" role="button" aria-label="Ir a la diapositiva ${index + 1}">
+            <span class="sr-only">Slide ${index + 1}</span>
+          </span>
+        `,
+      },
+      effect: 'creative',
+      creativeEffect: {
+        prev: {
+          translate: ['-120%', 0, -500],
+          opacity: 0,
+        },
+        next: {
+          translate: ['120%', 0, -500],
+          opacity: 0,
+        },
+      },
+      preloadImages: false,
+      lazy: {
+        loadPrevNext: true,
+        loadOnTransitionStart: true,
+      },
+      watchSlidesProgress: true,
+    });
+  });
+</script>
+</section>
